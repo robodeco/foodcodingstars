@@ -1,15 +1,23 @@
+// Set up MySQL connection.
+
 var mysql = require("mysql");
-var dotenv = require("dotenv").config();
-var password = process.env.mysql_password;
+var dotenv = require("dotenv").config;
+
+var password = process.env.MYSQL_PASSWORD;
 var connection;
 
-connection = mysql.createConnection({
+if (process.env.JAWSDB_URL){
+  connection = mysql.createConnection(process.env.JAWSDB_URL);
+
+} else {
+  connection = mysql.createConnection({
     port: 3306,
     host: "localhost",
     user: "root",
     password: password,
     database: "feedbag_db"
-});
+  })
+}
 
 
 connection.connect(function(err){
