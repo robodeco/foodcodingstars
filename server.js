@@ -1,28 +1,24 @@
-var express = require("express");
-var bodyParser = require("body-parser");
+const express = require ('express');
+const authRoutes = require('./routes/auth-routes');
+const passportSetup = require('./config/passport-setup');
+
+const app = express();
 
 
-var PORT = process.env.PORT || 3000;
+//set up view engine
+app.set('view engine','ejs');
 
-var app = express();
-// Serve static content for the app from the "public" directory in the application directory.
-app.use(express.static('public'));
+//set up authRoutes
+app.use('/auth',authRoutes);
 
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }));
-
-// parse application/json
-app.use(bodyParser.json());
-var exphbs = require("express-handlebars");
-
-app.engine("handlebars", exphbs({ defaultLayout: "main" }));
-app.set("view engine", "handlebars");
+app.get('/',(req,res)=>{
+  res.render('home');
+});
 
 
-var routes = require("./controllers/routes.js")
 
-app.use(routes);
 
-app.listen(PORT, function() {
-  console.log("App now listening at localhost:" + PORT);
+
+app.listen(3000, ()=>{
+  console.log('app now listening for requests on port 3000');
 });
