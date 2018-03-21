@@ -3,25 +3,16 @@ const router = require('express').Router();
 var path = require("path");
 
 
-
-router.get("/", function(req, res) {
-  res.sendFile(path.join(__dirname, "../public/signin.html"));
-});
-
-router.get("/user", function(req, res) {
-  res.sendFile(path.join(__dirname, "../public/userpage.html"));
-});
-
-router.get("/search", function(req, res){
-  res.sendFile(path.join(__dirname, "../public/search.html"));
-
-});
+// router.get("/login", function(req, res){
+//
+//   res.render("index");
+// });
 
 
 const passport = require('passport');
 
 //auth login
-router.get('/login',(req, res)=>{
+router.get('/',(req, res)=>{
   res.render('login');
 
 });

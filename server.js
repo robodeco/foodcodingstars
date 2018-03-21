@@ -5,6 +5,7 @@ var db = require('./models');
 var PORT = process.env.PORT || 3000;
 const app = express();
 var bodyParser = require("body-parser");
+require("dotenv").config();
 
 
 //set up view engine
@@ -25,13 +26,16 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // });
 
 
-
+require("./routes/api-routes.js")(app);
+require("./routes/htmlRoutes.js")(app);
 var routes = require("./controllers/routes.js");
 app.use(express.static('public'));
 app.use(routes);
 
-db.sequelize.sync().then(function(){
-app.listen(PORT, function() {
-  console.log("App now listening at localhost:" + PORT);
+// Syncing our sequelize models and then starting our Express app
+// =============================================================
+db.sequelize.sync().then(function() {
+  app.listen(PORT, function() {
+    console.log("App listening on PORT " + PORT);
   });
 });
