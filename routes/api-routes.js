@@ -37,6 +37,22 @@ app.get("/api/recipes", function(req, res){
   })
 });
 
+app.get("/api/restaurants", function(req, res){
+  db.Restaurant.findAll({}).then(function(dbRestaurant){
+    res.json(dbRestaurant);
+  })
+});
+
+app.post("/api/restaurants", function(req, res){
+  db.Restaurant.create({
+    name: req.body.name,
+    link: req.body.link,
+    location: req.body.location
+  }).then(function(dbRestaurant){
+    res.json(dbRestaurant);
+  });
+});
+
 //pushing recipe to recipe table
   app.post("/api/recipes", function(req, res) {
     db.Recipe.create({
