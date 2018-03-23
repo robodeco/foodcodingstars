@@ -239,6 +239,51 @@ function previous() {
   });
 };
 
+var recres = [];
+$("#prevresults").empty();
+var submitfavsbtn = $("<button id=fvbtn>");
+submitfavsbtn.addClass("btn btn-primary previousbutton");
+submitfavsbtn.text("Submit Favorites");
+submitfavsbtn.attr("data-toggle", "modal");
+$("#prevresults").append(submitfavsbtn);
+
+
+$("#fvbtn").on("click", function(){
+  event.preventDefault();
+
+  $("#fvbtn").attr("data-target", "#fvmodal");
+  $( ".favorited" ).each(function( index ) {
+
+    favoritesvar = [];
+    favoritesvar.push(index + " : " + $(this).text());
+    console.log(favoritesvar);
+    for (i =0; i < favoritesvar.length; i++){
+      var newrecipe = {
+        title: favoritesvar[i],
+        href: favoritesvar[i],
+        ingredients: favoritesvar[i],
+        thumbnail: "ex string"
+      }
+      submitRecipe(newrecipe);
+      }
+
+
+
+  });
+  fvalidate();
+
+});
+
+function submitRecipe(recipe){
+  console.log("running");
+  $.post("/api/recipes", recipe, function(){
+
+  });
+}
+
+function fvalidate(){
+
+}
 
 //***********************************************************************************************************************************************************************************
 // ^^^^^^^^ Previous User Search/signin stuff ^^^^^^^
@@ -366,8 +411,21 @@ function recipesapi() {
               link: recipeArr[i].href,
               thumb: "<img class=recipeimg src="+String(recipeArr[i].thumbnail) + '>',
               ingredients: recipeArr[i].ingredients,
-              favorite: "<img class= 'favicon' src = '../imgs/fvicon.png' height = '30px' width = '30px' fav= 'no' >"
+              favorite: "<img class= 'favicon' src = '../imgs/fvicon.png' height = '30px' width = '30px' fav= 'no' >",
+              isfavorite: function() {
+                if (this.favorite.fav === "no"){
+                  this.favorite.fav = "yes";
+                  this.favorite.src = "./imgs/fviconactive.png";
+                } else{
+                  this.favorite.fav = "no";
+                  this.favorite.src = "./imgs/fvicon.png";
+                }
+
+
+              }
             }
+
+
 
              recipecontainer.append("<p></p>");
              recipecontainer.append(reciperes.favorite);
@@ -375,6 +433,8 @@ function recipesapi() {
              recipecontainer.append("<p></p>")
              recipecontainer.append(reciperes.ingredients);
              recipecontainer.prepend(reciperes.thumb);
+             recres.push(recipecontainer);
+
              $("#recipes").append(recipecontainer);
 
           }
@@ -388,14 +448,17 @@ function favorites() {
   var isfavorites = $(this).attr("fav");
   if (isfavorites === "no") {
     $(this).attr("fav", "yes");
-    $(this).attr("src", "./imgs/fviconactive.png")
+    $(this).parent().addClass("favorited");
+    $(this).attr("src", "./imgs/fviconactive.png");
   } else {
     $(this).attr("fav", "no");
+    $(this).parent().removeClass("favorited");
     $(this).attr("src", "./imgs/fvicon.png")
   }
 }
 
 $(document).on("click", ".favicon", favorites);
+
 
 
 
@@ -462,7 +525,7 @@ previous();
 $(document).on("click", ".cuisineButton", checkFunction);
 
 //click handler for using the previous search terms entered
-$(document).on("click", ".previousbutton", previousbuttonfunction);
+// $(document).on("click", ".previousbutton", previousbuttonfunction);
 
 
 
@@ -492,7 +555,10 @@ $("#submit").on("click", function() {
     //call API's and render the buttons
     restuarantsapi();
     recipesapi();
+
     renderbuttons();
+
+    // console.log(recres);
 
 
   }
