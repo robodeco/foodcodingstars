@@ -239,6 +239,168 @@ function previous() {
   });
 };
 
+$("#signinorout").empty();
+var submitrestfavsbtn = $("<button id = restfvbtn>");
+submitrestfavsbtn.addClass("btn btn-primary signbutton");
+submitrestfavsbtn.text("Submit Favorite Restaurants!");
+submitrestfavsbtn.attr("data-toggle", "modal");
+$("#signinorout").append(submitrestfavsbtn);
+
+var favrestvar = [];
+var previousfavrest = [];
+
+$.get("/api/restaurants", getpreviousrestaurants);
+
+function getpreviousrestaurants(data) {
+  for (l = 0; l < data.length; l++) {
+    previousfavrest.push(data[l].name)
+
+
+  }
+console.log(previousfavrest);
+}
+
+$("#restfvbtn").on("click", function() {
+event.preventDefault();
+$("#restfvbtn").attr("data-target", "#fvmodal");
+$(".restfavorited").each(function(index) {
+  newrest = {
+    name: $(this).attr("name"),
+    link: $(this).attr("link"),
+    location: $(this).attr("location")
+
+  }
+  favrestvar.push(newrest);
+});
+if (fvalidate() == false) {
+  return;
+}
+$("#fvmodalbody").empty();
+//loop through favoritesvar and submit each new recipe
+for (i = 0; i < favrestvar.length; i++) {
+  for (k = 0; k < previousfavrest.length; k++) {
+    if (favrestvar[i].name === previousfavrest[k]) {
+      console.log("match");
+      $("#fvmodalbody").append(favrestvar[i].name + " has already been favorited and was not added. <p> </p> Any other favorites could not be added, please unselect " + favrestvar[i].name + " and try again!");
+      favrestvar.splice(favrestvar[i]);
+      return
+    }
+  }
+  submitRestaurant(favrestvar[i]);
+  previousfavrest.push(favrestvar[i].name);
+
+  $("#fvmodalbody").append(favrestvar[i].name + " Has been added to your favorites! <p></p>");
+  console.log(favrestvar);
+}
+//empty favorites var
+favrestvar.length = 0;
+
+
+
+});
+
+function submitRestaurant(restaurant) {
+  console.log("running");
+  $.post("/api/restaurants", restaurant, function() {
+
+  });
+}
+
+
+
+//create favorites button using former previous button position, template, and attrs
+$("#prevresults").empty();
+var submitfavsbtn = $("<button id=fvbtn>");
+submitfavsbtn.addClass("btn btn-primary previousbutton");
+submitfavsbtn.text("Submit Favorite Recipes!");
+submitfavsbtn.attr("data-toggle", "modal");
+$("#prevresults").append(submitfavsbtn);
+
+//initialize array of favorited recipes
+var favoritesvar = [];
+var previousfavorites = [];
+
+$.get("/api/recipes", getpreviousrecipes);
+
+function getpreviousrecipes(data) {
+  for (j = 0; j < data.length; j++) {
+    previousfavorites.push(data[j].title)
+
+  }
+
+}
+
+
+//click handler for submitting favorites
+$("#fvbtn").on("click", function() {
+  event.preventDefault();
+  //trigger modal
+  $("#fvbtn").attr("data-target", "#fvmodal");
+
+  function pickfavrecipes() {
+    //scan through the DOM looking for divs with a class of "favorited"
+    $(".favorited").each(function(index) {
+      //push div's attr's into a new recipe object
+      newrecipe = {
+        title: $(this).attr("title"),
+        href: $(this).attr("href"),
+        thumbnail: $(this).attr("thumbnail"),
+        ingredients: $(this).attr("ingredients")
+      }
+      //push recipe objects into the favorites array
+      favoritesvar.push(newrecipe);
+
+
+    });
+    //validate there are favorites in the arry, if not, break
+    if (fvalidate() == false) {
+
+      return;
+    }
+
+    $("#fvmodalbody").empty();
+
+    //loop through favoritesvar and submit each new recipe
+
+    for (i = 0; i < favoritesvar.length; i++) {
+      for (k = 0; k < previousfavorites.length; k++) {
+        if (favoritesvar[i].title === previousfavorites[k]) {
+          console.log("match");
+          $("#fvmodalbody").append(favoritesvar[i].title + " has already been favorited and was not added. <p> </p> Any other favorites could not be added, please unselect " + favoritesvar[i].title + " and try again!");
+          favoritesvar.splice(favoritesvar[i]);
+          return
+        }
+      }
+      submitRecipe(favoritesvar[i]);
+      previousfavorites.push(favoritesvar[i].title);
+
+      $("#fvmodalbody").append(favoritesvar[i].title + " Has been added to your favorites! <p></p>");
+      console.log(favoritesvar);
+    }
+    //empty favorites var
+    favoritesvar.length = 0;
+  }
+  //call function
+  pickfavrecipes();
+});
+
+//post for posting new favorite recipes
+function submitRecipe(recipe) {
+  console.log("running");
+  $.post("/api/recipes", recipe, function() {
+
+  });
+}
+
+//validation for favorites
+function fvalidate() {
+  if (favoritesvar.length == 0 && favrestvar.length == 0) {
+    console.log("array is empty");
+    $("#fvmodalbody").empty();
+    $("#fvmodalbody").append("You have not selected any favorites!");
+    return false;
+  }
+}
 
 //***********************************************************************************************************************************************************************************
 // ^^^^^^^^ Previous User Search/signin stuff ^^^^^^^
@@ -296,6 +458,8 @@ function restuarantsapi() {
       $("#restaurants").empty();
       // store results in a variable
       var restresults = response.restaurants;
+      console.log(restresults);
+
       //loop through results
       for (var i = 0; i < restresults.length; i++) {
         //create a DIV to hold all restuarant info
@@ -306,8 +470,12 @@ function restuarantsapi() {
           link: restresults[i].restaurant.url,
           location: restresults[i].restaurant.location.address,
           price: restresults[i].restaurant.price_range,
-          favorite: "<img class= 'favicon' src = '../imgs/fvicon.png' height = '30px' width = '30px' fav= 'no' >"
+          favorite: "<img class= 'favicon' src = '../imgs/fvicon.png' height = '30px' width = '30px' fav= 'no' rest = 'yes' >"
         }
+
+        restcontainer.attr("name", restlist.name);
+        restcontainer.attr("link", restlist.link);
+        restcontainer.attr("location", restlist.location);
 
         //runs the priceing function that determins the price range (1-4) of the user's input amount
         priceranges();
@@ -320,6 +488,8 @@ function restuarantsapi() {
         }
         //call the pricechecker function
         pricechecker();
+
+
         restcontainer.prepend(restlist.favorite);
         //prepend the link created above
         restcontainer.prepend("<a class='links' href = '" + restlist.link + "' target='_blank'>" + restlist.name + "</a>");
@@ -335,8 +505,11 @@ function restuarantsapi() {
         //end the for loop
       }
       //if no results returned, append message
-      if (restresults == []) {
-        $("#restaurants").append("Oh No! Looks like there are no viable restaurants near you! Try again or pick a recipe!")
+      if( $('#restaurants').is(':empty') )  {
+        console.log("running");
+        var emptycontainer = $("<div class ='countries norestresults' >")
+        $(emptycontainer).append("Oh No! Looks like there are no viable restaurants near you! Try again or pick a recipe!")
+        $("#restaurants").append(emptycontainer);
       }
       //end response function
     });
@@ -346,39 +519,50 @@ function restuarantsapi() {
 
 //recipe API call
 function recipesapi() {
-  finalQueryURL2= queryBaseURL2 + "?q=" + culturepick +"&count=5"+"&oi=1";
+  finalQueryURL2 = queryBaseURL2 + "?q=" + culturepick + "&count=5" + "&oi=1";
 
-      $.ajax({
-        url: finalQueryURL2,
-        method:"GET",
-      })
-      .done(function(response) {
-        $("#recipes").empty();
-        var recipes = JSON.parse(response)
+  $.ajax({
+      url: finalQueryURL2,
+      method: "GET",
+    })
+    .done(function(response) {
+      $("#recipes").empty();
+      var recipes = JSON.parse(response)
 
-        var recipeArr = recipes.results;
+      var recipeArr = recipes.results;
 
-        for (var i = 0; i < recipeArr.length; i++) {
-            var recipecontainer= $("<div class='reciperesponse'>")
+      for (var i = 0; i < recipeArr.length; i++) {
+        var recipecontainer = $("<div class='reciperesponse'>")
 
-            var reciperes = {
-              title: recipeArr[i].title,
-              link: recipeArr[i].href,
-              thumb: "<img class=recipeimg src="+String(recipeArr[i].thumbnail) + '>',
-              ingredients: recipeArr[i].ingredients,
-              favorite: "<img class= 'favicon' src = '../imgs/fvicon.png' height = '30px' width = '30px' fav= 'no' >"
-            }
+        var reciperes = {
+          title: recipeArr[i].title,
+          link: recipeArr[i].href,
+          thumb: "<img class=recipeimg src=" + String(recipeArr[i].thumbnail) + '>',
+          ingredients: recipeArr[i].ingredients,
+          favorite: "<img class= 'favicon' src = '../imgs/fvicon.png' height = '30px' width = '30px' fav= 'no' rest='no' >",
 
-             recipecontainer.append("<p></p>");
-             recipecontainer.append(reciperes.favorite);
-             recipecontainer.append("<a class = 'links' href= '" + reciperes.link + "'target='_blank'>" + reciperes.title + "</a>");
-             recipecontainer.append("<p></p>")
-             recipecontainer.append(reciperes.ingredients);
-             recipecontainer.prepend(reciperes.thumb);
-             $("#recipes").append(recipecontainer);
+        }
 
-          }
-      })
+        recipecontainer.attr("href", reciperes.link);
+        recipecontainer.attr("title", reciperes.title);
+        recipecontainer.attr("ingredients", reciperes.ingredients);
+        recipecontainer.attr("thumbnail", String(recipeArr[i].thumbnail));
+
+
+
+
+        recipecontainer.append("<p></p>");
+        recipecontainer.append(reciperes.favorite);
+        recipecontainer.append("<a class = 'links' href= '" + reciperes.link + "'target='_blank'>" + reciperes.title + "</a>");
+        recipecontainer.append("<p></p>")
+        recipecontainer.append(reciperes.ingredients);
+        recipecontainer.prepend(reciperes.thumb);
+        // recres.push(recipecontainer);
+
+        $("#recipes").append(recipecontainer);
+
+      }
+    })
 }
 
 
@@ -386,16 +570,25 @@ function recipesapi() {
 //function for favorites
 function favorites() {
   var isfavorites = $(this).attr("fav");
+  var type = $(this).attr("rest");
   if (isfavorites === "no") {
     $(this).attr("fav", "yes");
-    $(this).attr("src", "./imgs/fviconactive.png")
+    if (type == 'no') {
+      $(this).parent().addClass("favorited");
+    } else {
+      $(this).parent().addClass("restfavorited");
+    }
+    $(this).attr("src", "./imgs/fviconactive.png");
   } else {
     $(this).attr("fav", "no");
+    $(this).parent().removeClass("favorited");
+    $(this).parent().removeClass("restfavorited");
     $(this).attr("src", "./imgs/fvicon.png")
   }
 }
 
 $(document).on("click", ".favicon", favorites);
+
 
 
 
@@ -462,7 +655,7 @@ previous();
 $(document).on("click", ".cuisineButton", checkFunction);
 
 //click handler for using the previous search terms entered
-$(document).on("click", ".previousbutton", previousbuttonfunction);
+// $(document).on("click", ".previousbutton", previousbuttonfunction);
 
 
 
@@ -492,7 +685,10 @@ $("#submit").on("click", function() {
     //call API's and render the buttons
     restuarantsapi();
     recipesapi();
+
     renderbuttons();
+
+    // console.log(recres);
 
 
   }

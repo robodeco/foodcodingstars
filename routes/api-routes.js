@@ -10,7 +10,60 @@ var db = require("../models");
 
 // Routes
 // =============================================================
+
+//pushing user to user table
+
 module.exports = function(app) {
+  app.post("/api/users", function(req, res){
+    db.User.create(req.body).then(function(dbUser){
+      res.json(dbUser);
+    })
+  });
+
+//deleting users
+  app.delete("/api/users/:id", function(req, res){
+    db.User.destroy({
+      where:{
+        id: req.params.id
+      }
+    }).then(function(dbUser){
+      res.json(dbUser);
+    })
+  })
+
+app.get("/api/recipes", function(req, res){
+  db.Recipe.findAll({}).then(function(dbRecipe){
+    res.json(dbRecipe);
+  })
+});
+
+app.get("/api/restaurants", function(req, res){
+  db.Restaurant.findAll({}).then(function(dbRestaurant){
+    res.json(dbRestaurant);
+  })
+});
+
+app.post("/api/restaurants", function(req, res){
+  db.Restaurant.create({
+    name: req.body.name,
+    link: req.body.link,
+    location: req.body.location
+  }).then(function(dbRestaurant){
+    res.json(dbRestaurant);
+  });
+});
+
+//pushing recipe to recipe table
+  app.post("/api/recipes", function(req, res) {
+    db.Recipe.create({
+      title: req.body.title,
+      href: req.body.href,
+      ingredients: req.body.ingredients,
+      thumbnail: req.body.thumbnail
+    }).then(function(dbRecipe){
+      res.json(dbRecipe);
+    });
+  });
 
   // GET route for getting all of the todos
   app.get("/api/todos", function(req, res) {
