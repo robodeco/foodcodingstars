@@ -25,15 +25,6 @@
   border-color: rgb(19, 81, 73, .2);
 }
 
-.socBox {
-  width: 50%;
-  background-color: rgba(40, 40, 40, .9);
-  min-height: 50px;
-  margin-top: 5px;
-  color: white;
-  text-align: center;
-}
-
 .button {
   width: 75%;
   cursor: pointer;
@@ -49,6 +40,17 @@
 .butDiv {
   height: 50px
 }
+
+/* for future social media sharing support */
+/* .socBox {
+  width: 50%;
+  background-color: rgba(40, 40, 40, .9);
+  min-height: 50px;
+  margin-top: 5px;
+  color: white;
+  text-align: center;
+} */
+
 
 @media only screen and (max-width: 500px) {
     .header {

@@ -74,10 +74,11 @@ body.loading .modal {
   text-align: center;
 }
 
-.favRecipes {
+.favAll {
   background-color: rgba(40, 40, 40, .9);
   min-height: 864px;
   padding: 15px;
+  margin-top: 10px
 }
 
 .recRow {
@@ -98,7 +99,7 @@ body.loading .modal {
 }
 
 @media only screen and (max-width: 1000px) {
-  .favRecipes {
+  .favAll {
     background-color: rgba(40, 40, 40, .9);
     margin-top: 5px
   }
