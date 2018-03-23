@@ -239,7 +239,7 @@ function previous() {
   });
 };
 
-var recres = [];
+//create favorites button using former previous button position, template, and attrs
 $("#prevresults").empty();
 var submitfavsbtn = $("<button id=fvbtn>");
 submitfavsbtn.addClass("btn btn-primary previousbutton");
@@ -247,41 +247,91 @@ submitfavsbtn.text("Submit Favorites");
 submitfavsbtn.attr("data-toggle", "modal");
 $("#prevresults").append(submitfavsbtn);
 
+//initialize array of favorited recipes
+var favoritesvar = [];
 
-$("#fvbtn").on("click", function(){
+var previousfavorites = [];
+
+$.get("/api/recipes", getpreviousrecipes);
+function getpreviousrecipes(data){
+  for (j = 0; j <data.length; j++){
+    previousfavorites.push(data[j].title)
+
+  }
+
+}
+
+
+//click handler for submitting favorites
+$("#fvbtn").on("click", function() {
   event.preventDefault();
-
+  //trigger modal
   $("#fvbtn").attr("data-target", "#fvmodal");
-  $( ".favorited" ).each(function( index ) {
-
-    favoritesvar = [];
-    favoritesvar.push(index + " : " + $(this).text());
-    console.log(favoritesvar);
-    for (i =0; i < favoritesvar.length; i++){
-      var newrecipe = {
-        title: favoritesvar[i],
-        href: favoritesvar[i],
-        ingredients: favoritesvar[i],
-        thumbnail: "ex string"
+  console.log(previousfavorites);
+  function pickfavrecipes() {
+    //scan through the DOM looking for divs with a class of "favorited"
+    $(".favorited").each(function(index) {
+      //push div's attr's into a new recipe object
+      newrecipe = {
+        title: $(this).attr("title"),
+        href: $(this).attr("href"),
+        thumbnail: $(this).attr("thumbnail"),
+        ingredients: $(this).attr("ingredients")
       }
-      submitRecipe(newrecipe);
+      //push recipe objects into the favorites array
+      favoritesvar.push(newrecipe);
+
+
+    });
+    //validate there are favorites in the arry, if not, break
+    if (fvalidate() == false) {
+
+      return;
+    }
+
+    $("#fvmodalbody").empty();
+
+    //loop through favoritesvar and submit each new recipe
+
+    for (i = 0; i < favoritesvar.length; i++) {
+      for(k = 0; k < previousfavorites.length; k++){
+        if (favoritesvar[i].title === previousfavorites[k]){
+          console.log("match");
+          $("#fvmodalbody").append (favoritesvar[i].title + " has already been favorited and was not added. <p> </p> Any other favorites could not be added, please unselect " + favoritesvar[i].title + " and try again!");
+          favoritesvar.splice(favoritesvar[i]);
+          return
+        }
       }
+      submitRecipe(favoritesvar[i]);
+      previousfavorites.push(favoritesvar[i].title);
 
-
-
-  });
-  fvalidate();
-
+      $("#fvmodalbody").append(favoritesvar[i].title + " Has been added to your favorites! <p></p>");
+      console.log(favoritesvar);
+    }
+    //empty favorites var
+    favoritesvar.length = 0;
+  }
+  //call function
+  pickfavrecipes();
 });
 
-function submitRecipe(recipe){
+//post for posting new favorite recipes
+function submitRecipe(recipe) {
   console.log("running");
-  $.post("/api/recipes", recipe, function(){
+  $.post("/api/recipes", recipe, function() {
 
   });
 }
 
-function fvalidate(){
+//validation for favorites
+function fvalidate() {
+  if (favoritesvar.length == 0) {
+    console.log("array is empty");
+    $("#fvmodalbody").empty();
+    $("#fvmodalbody").append("You have not selected any favorites! Please select your favorite recipes!");
+    return false;
+  }
+
 
 }
 
@@ -391,54 +441,50 @@ function restuarantsapi() {
 
 //recipe API call
 function recipesapi() {
-  finalQueryURL2= queryBaseURL2 + "?q=" + culturepick +"&count=5"+"&oi=1";
+  finalQueryURL2 = queryBaseURL2 + "?q=" + culturepick + "&count=5" + "&oi=1";
 
-      $.ajax({
-        url: finalQueryURL2,
-        method:"GET",
-      })
-      .done(function(response) {
-        $("#recipes").empty();
-        var recipes = JSON.parse(response)
+  $.ajax({
+      url: finalQueryURL2,
+      method: "GET",
+    })
+    .done(function(response) {
+      $("#recipes").empty();
+      var recipes = JSON.parse(response)
 
-        var recipeArr = recipes.results;
+      var recipeArr = recipes.results;
 
-        for (var i = 0; i < recipeArr.length; i++) {
-            var recipecontainer= $("<div class='reciperesponse'>")
+      for (var i = 0; i < recipeArr.length; i++) {
+        var recipecontainer = $("<div class='reciperesponse'>")
 
-            var reciperes = {
-              title: recipeArr[i].title,
-              link: recipeArr[i].href,
-              thumb: "<img class=recipeimg src="+String(recipeArr[i].thumbnail) + '>',
-              ingredients: recipeArr[i].ingredients,
-              favorite: "<img class= 'favicon' src = '../imgs/fvicon.png' height = '30px' width = '30px' fav= 'no' >",
-              isfavorite: function() {
-                if (this.favorite.fav === "no"){
-                  this.favorite.fav = "yes";
-                  this.favorite.src = "./imgs/fviconactive.png";
-                } else{
-                  this.favorite.fav = "no";
-                  this.favorite.src = "./imgs/fvicon.png";
-                }
+        var reciperes = {
+          title: recipeArr[i].title,
+          link: recipeArr[i].href,
+          thumb: "<img class=recipeimg src=" + String(recipeArr[i].thumbnail) + '>',
+          ingredients: recipeArr[i].ingredients,
+          favorite: "<img class= 'favicon' src = '../imgs/fvicon.png' height = '30px' width = '30px' fav= 'no' >",
 
+        }
 
-              }
-            }
+        recipecontainer.attr("href", reciperes.link);
+        recipecontainer.attr("title", reciperes.title);
+        recipecontainer.attr("ingredients", reciperes.ingredients);
+        recipecontainer.attr("thumbnail", String(recipeArr[i].thumbnail));
 
 
 
-             recipecontainer.append("<p></p>");
-             recipecontainer.append(reciperes.favorite);
-             recipecontainer.append("<a class = 'links' href= '" + reciperes.link + "'target='_blank'>" + reciperes.title + "</a>");
-             recipecontainer.append("<p></p>")
-             recipecontainer.append(reciperes.ingredients);
-             recipecontainer.prepend(reciperes.thumb);
-             recres.push(recipecontainer);
 
-             $("#recipes").append(recipecontainer);
+        recipecontainer.append("<p></p>");
+        recipecontainer.append(reciperes.favorite);
+        recipecontainer.append("<a class = 'links' href= '" + reciperes.link + "'target='_blank'>" + reciperes.title + "</a>");
+        recipecontainer.append("<p></p>")
+        recipecontainer.append(reciperes.ingredients);
+        recipecontainer.prepend(reciperes.thumb);
+        // recres.push(recipecontainer);
 
-          }
-      })
+        $("#recipes").append(recipecontainer);
+
+      }
+    })
 }
 
 
