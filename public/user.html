@@ -5,9 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
+  <link rel="stylesheet" type="text/css" href="css/reset.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/shared.css" media="screen" title="no title">
   <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
-  <link rel="stylesheet" type="text/css" href="css/style_2.0.css">
+  <link rel="stylesheet" type="text/css" href="css/user_style.css">
   <link href="https://fonts.googleapis.com/css?family=Amatic+SC" rel="stylesheet">
 </head>
 <body>
@@ -15,75 +17,56 @@
 <div class="container fullWrap">
   <div class="row">
 
-      <div class="col-lg-3 wrap1">
+      <div class="col-lg-5 col-md-12 col-sm-12">
+
             <div class="card userPanel">
               <img src="imgs/cartoon-me.jpeg" class="rounded-circle img-responsive roundPanel" alt="Profile Picture">
-              <div class="card-body">
+              <div class="card-body name">
                 <h4 class="card-title">Chris Katalinas</h4>
               </div>
             </div>
 
-            <div class="butWrap">
-              <div class="row">
-                <img href="/home" src="imgs/home-button.svg" class="button hvr-grow">
-              </div>
-              <div class="row">
-                <a href="/groceries"><img src="imgs/grocery-button.svg" class="button hvr-grow"></a>
-              </div>
-              <div class="row">
-                <img src="imgs/notes-button.svg" class="button hvr-grow">
-              </div>
-              <!-- <div class="row">
-                <img src="assets/images/button_template.svg" class="button hvr-grow">
-              </div>
-              <div class="row">
-                <img src="assets/images/button_template.svg" class="button hvr-grow">
-              </div> -->
-            </div>
+            <div>
+        				<div class="butWrap">
+        							<div class="shiftL">
+        								<a href="/search"><img src="imgs/search-button.svg" class="button hvr-grow"></a>
+        							</div>
 
-            <div class="socBox">
-            Show Off Your Food
-            <div class="row">
-              <div class="col-lg-4"><img src="imgs/social1.png" class="butDiv"></div>
-              <div class="col-lg-4"><img src="imgs/social2.png" class="butDiv"></div>
-              <div class="col-lg-4"><img src="imgs/social3.png" class="butDiv"></div>
-            </div>
-          </div>
+        							<div class="shiftL">
+        								<a href="/user"><img src="imgs/favorites-button.svg" class="button hvr-grow"></a>
+        							</div>
 
+        							<div class="shiftL">
+        								<a href="/groceries"><img src="imgs/grocery-button.svg" class="button hvr-grow"></a>
+        							</div>
+
+        							<div class="shiftL">
+        								<a href="/notes"><img src="imgs/notes-button.svg" class="button hvr-grow"></a>
+        							</div>
+        				</div>
+        		</div>
       </div>
 
-    <div class="col-lg-7">
-        <div class="favRecipes">
-        <h1>Favorite Recipes</h1>
-        <div class="chalkDiv">
-        <img src="imgs/chalk-border.png" class="chalkPic">
+      <div class="col-lg-7 col-md-12 col-sm-12 favAll">
+        <div>
+          <h1>Favorites</h1>
+          <div class="chalkDiv">
+          <img src="imgs/chalk-border.png" class="chalkPic">
+          </div>
         </div>
-
-          <div class="row recRow">
-            favorite1
-          </div>
-
-        <div class="favBord"></div>
-          <div class="row recRow">
-            favorite2
-          </div>
-          <div class="favBord"></div>
-
-          <div class="row recRow">
-            favorite3
-          </div>
-          <div class="favBord"></div>
-
-          <div class="row recRow">
-            favorite4
-          </div>
       </div>
-    </div>
 
   </div>
 </div>
 
-
+<!-- <div class="socBox">
+Show Off Your Food
+<div class="row">
+  <div class="col-lg-4"><img src="imgs/social1.png" class="butDiv"></div>
+  <div class="col-lg-4"><img src="imgs/social2.png" class="butDiv"></div>
+  <div class="col-lg-4"><img src="imgs/social3.png" class="butDiv"></div>
+</div>
+</div> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
