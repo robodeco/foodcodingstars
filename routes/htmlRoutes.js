@@ -3,7 +3,7 @@ var path = require("path");
 
 module.exports = function(app) {
 
-  app.get("/home", function(req, res) {
+  app.get("/user", function(req, res) {
   res.sendFile(path.join(__dirname, "../public/user.html"));
   });
 
