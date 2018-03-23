@@ -141,6 +141,13 @@ label {
 
 }
 
+.norestresults {
+  background-image: url("../imgs/white.jpeg");
+  font-size: 30px;
+  color: black;
+  font-family: Menu, Helvetica, Arial, sans-serif;
+}
+
 .links {
   font-family: Menu, Helvetica, Arial, sans-serif;
   font-size: 40px;

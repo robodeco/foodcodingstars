@@ -458,6 +458,8 @@ function restuarantsapi() {
       $("#restaurants").empty();
       // store results in a variable
       var restresults = response.restaurants;
+      console.log(restresults);
+
       //loop through results
       for (var i = 0; i < restresults.length; i++) {
         //create a DIV to hold all restuarant info
@@ -486,6 +488,8 @@ function restuarantsapi() {
         }
         //call the pricechecker function
         pricechecker();
+
+
         restcontainer.prepend(restlist.favorite);
         //prepend the link created above
         restcontainer.prepend("<a class='links' href = '" + restlist.link + "' target='_blank'>" + restlist.name + "</a>");
@@ -501,8 +505,11 @@ function restuarantsapi() {
         //end the for loop
       }
       //if no results returned, append message
-      if (restresults == []) {
-        $("#restaurants").append("Oh No! Looks like there are no viable restaurants near you! Try again or pick a recipe!")
+      if( $('#restaurants').is(':empty') )  {
+        console.log("running");
+        var emptycontainer = $("<div class ='countries norestresults' >")
+        $(emptycontainer).append("Oh No! Looks like there are no viable restaurants near you! Try again or pick a recipe!")
+        $("#restaurants").append(emptycontainer);
       }
       //end response function
     });
