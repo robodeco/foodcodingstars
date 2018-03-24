@@ -3,8 +3,17 @@ const authRoutes = require('./controllers/authroutes');
 const passportSetup = require('./config/passport-setup');
 var db = require('./models');
 var PORT = process.env.PORT || 3000;
-const app = express();
 var bodyParser = require("body-parser");
+const app = express();
+app.use(require('cookie-parser')());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(require('express-session')({
+  secret: 'keyboard cat',
+  resave: true,
+  saveUninitialized: true
+}));
+app.use(passportSetup.initialize());
+app.use(passportSetup.session())
 require("dotenv").config();
 
 
@@ -20,10 +29,13 @@ app.use('/auth',authRoutes);
 
 app.use(bodyParser.json());
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }));
+
 // app.get('/',(req,res)=>{
 //   res.render('home');
 // });
+app.get("/user", function(req, res) {
+  res.status(200).json({username:req.user.username})
+});
 
 
 require("./routes/api-routes.js")(app);

@@ -12,4 +12,13 @@ scope: ['profile']
 authrouter.get('/logout', (req, res)=>{
   res.send('logging out');
 })
+
+authrouter.get('/google/redirect', passport.authenticate('google'), (req, res) => {
+    console.log('INSERT REDIRECT LOGIC HERE')
+
+    //res.send(req.user)
+    res.redirect('/userpage');
+    // req.user();
+  });
+
 module.exports = authrouter;

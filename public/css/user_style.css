@@ -38,13 +38,6 @@ body.loading .modal {
               no-repeat;
 }
 
-.placeFavs {
-  font-family: Writing, Helvetica, Arial, sans-serif;
-  color: white;
-  border-style: dotted;
-  border-color: white
-}
-
 .chalkDiv {
   max-width: 100%;
   margin-top: -15px;

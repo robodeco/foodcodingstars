@@ -1,11 +1,3 @@
-//modal
-$body = $("body");
-
-$(document).on({
-    ajaxStart: function() { $body.addClass("loading");    },
-     ajaxStop: function() { $body.removeClass("loading"); }
-});
-
 //title animation
 var basicTimeline = anime.timeline();
 basicTimeline.add({
@@ -177,75 +169,11 @@ function checkFunction() {
 // Previous User Search/signin stuff
 //***********************************************************************************************************************************************************************************
 
-//previous terms and users function
-function previous() {
-  firebase.auth().onAuthStateChanged(function(user) {
-    //if user is logged in
-    if (user) {
-      //grab the display name of the current logged in user
-      var displayName = user.displayName;
-      //show the user name on the DOM
-      $("#usernamedisplay").append("Welcome " + displayName);
-      //create an anchor element for a signout button
-      var signOutbutton = $("<a>");
-      //add classes to the signout button to define it as a button
-      signOutbutton.addClass("btn btn-primary signbutton");
-      //give the signout button the correct href for our signin page
-      signOutbutton.attr("href", "signin.html");
-      //add text to teh btn for the DOM
-      signOutbutton.text("Not you? Sign Out");
-      //give the signout button an ID
-      signOutbutton.attr("id", "signout");
-      //append signout button to the DOM
-      $("#signinorout").append(signOutbutton);
-      //on click even for the signout button
-      $("#signout").on("click", function() {
-        //signout and redirect to signin page
-        firebase.auth().signOut().then(function() {
-          // Sign-out successful.
-        }).catch(function(error) {
-          // An error happened.
-        });
-      });
-      //if user is not logged in
-    } else {
-      //create an anchor element for a signin button
-      var signInbutton = $("<a>");
-      //add classes to signin button to define it as a button
-      signInbutton.addClass("btn btn-primary signbutton");
-      //give the signin button href to our sigin page
-      signInbutton.attr("href", "signin.html");
-      //add text to sigin button
-      signInbutton.text("You are not signed in! Click here!")
-      //append signin button to DOM
-      $("#signinorout").append(signInbutton);
-    }
+$.get("/user", username);
+function username(data){
+$("#usernamedisplay").append("Welcome " + data.username);
+}
 
-    //pull previous search terms for signed in user
-    firebase.database().ref('Users/' + user.displayName).on("value", function(snapshot) {
-
-      prevculture = snapshot.val().culture;
-      previouscultures = snapshot.val().previous;
-      previousprice = snapshot.val().price;
-
-
-      //renders a previous search button if previous terms exist for user
-      if (prevculture != "") {
-        //empties the div with the previous button
-        $("#prevresults").empty();
-        //creates a button with an id
-        var previousbutton = $("<button id=prevbutton>");
-        //adds class to define the button
-        previousbutton.addClass("btn btn-primary previousbutton");
-        //shows the previous search terms as text in the button
-        previousbutton.text("See Your Previous Results for " + previouscultures + " for $" + previousprice);
-        //appends the button to the DOM
-        $("#prevresults").append(previousbutton);
-
-      }
-    });
-  });
-};
 
 $("#signinorout").empty();
 var submitrestfavsbtn = $("<button id = restfvbtn>");
