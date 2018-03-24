@@ -165,6 +165,8 @@ function checkFunction() {
 
 
 
+
+
 //***********************************************************************************************************************************************************************************
 // Previous User Search/signin stuff
 //***********************************************************************************************************************************************************************************
@@ -244,6 +246,7 @@ function submitRestaurant(restaurant) {
 
 
 
+
 //create favorites button using former previous button position, template, and attrs
 $("#prevresults").empty();
 var submitfavsbtn = $("<button id=fvbtn>");
@@ -265,6 +268,15 @@ function getpreviousrecipes(data) {
   }
 
 }
+
+var homebutton = $("<a href = /userpage>")
+homebutton.append("<button>")
+
+homebutton.addClass("btn btn-primary previousbutton");
+homebutton.text("Favorites Page!");
+homebutton.append("</button>");
+homebutton.append("</a>")
+$("#prevresults").append(homebutton);
 
 
 //click handler for submitting favorites
@@ -581,7 +593,7 @@ function priceranges() {
 //call independent functions
 getLocation();
 renderbuttons();
-previous();
+
 
 
 

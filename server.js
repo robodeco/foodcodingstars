@@ -18,7 +18,7 @@ require("dotenv").config();
 
 
 //set up view engine
-app.set('view engine','ejs');
+// app.set('view engine','ejs');
 
 //set up authRoutes
 app.use('/auth',authRoutes);

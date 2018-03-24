@@ -13,7 +13,8 @@ const passport = require('passport');
 
 //auth login
 router.get('/',(req, res)=>{
-  res.render('login');
+  res.sendFile(path.join(__dirname, "../public/login.html"));
+  // res.render('login');
 
 });
 

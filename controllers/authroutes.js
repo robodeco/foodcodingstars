@@ -1,8 +1,13 @@
 const authrouter = require('express').Router();
 const passport = require('passport');
+
+const path = require("path");
 //auth login
 authrouter.get('/login',(req, res)=>{
-  res.render('login');
+  res.sendFile(path.join(__dirname, "../public/login.html"));
+
+  // res.render('login');
+
 });
 //auth with google
 authrouter.get('/google',passport.authenticate('google',{
