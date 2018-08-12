@@ -13,7 +13,8 @@ const passport = require('passport');
 
 //auth login
 router.get('/',(req, res)=>{
-  res.render('login');
+  res.sendFile(path.join(__dirname, "../public/login.html"));
+  // res.render('login');
 
 });
 
@@ -25,7 +26,8 @@ scope: ['profile']
 
 //auth logout
 router.get('/logout', (req, res)=>{
-  res.send('logging out');
+  req.logout()
+  res.redirect('/');
 })
 
 module.exports = router;

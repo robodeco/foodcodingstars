@@ -1,5 +1,6 @@
+
 body {
-  background-image: url("../images/store.jpg");
+  background-image: url("../imgs/store.jpg");
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -12,8 +13,15 @@ body {
   width: 50%;
 }
 
+#fb {
+  width: 150px;
+  height: 150px;
+  margin-left: 100px;
+  margin-top: 15px;
+}
+
 .jumbotron {
-  background-image: url("../images/form.jpeg");
+  background-image: url("../imgs/form.jpeg");
   margin: auto;
   margin-top: 25px;
   width: 100%;
@@ -55,7 +63,7 @@ div.card.half-card{
   margin-top: 50px;
   width: 100%;
   text-align: center;
-  background-image: url("../images/form.jpeg");
+  background-image: url("../imgs/form.jpeg");
   border-radius: 50px;
 }
 
@@ -79,6 +87,23 @@ div.card.half-card{
 
 .button:hover {
   background: #00FF00
+}
+
+.HERE {
+  color: #fff;
+  font-family: Writing, Helvetica, Arial, sans-serif;
+  font-size: 150px;
+  margin-bottom: 0;
+  background-color: rgba(0,0,0,.8);
+  text-align: center;
+  float: left
+}
+
+#plus {
+  width: 150px;
+  height: 150px;
+  margin-left: 15px;
+  margin-top: 15px
 }
 
 h1 {
@@ -136,7 +161,7 @@ label {
 }
 
 .countries {
-  background-image: url("../images/white.jpeg");
+  background-image: url("../imgs/white.jpeg");
   color: black;
   margin-bottom: 20px;
   border-bottom: 1.5px solid black;
@@ -152,7 +177,7 @@ label {
 }
 
 .cuisineButton {
-  background-image: url("../images/wall.jpeg");
+  background-image: url("../imgs/wall.jpeg");
   margin: 5px;
   color: black;
   border-color: black;
@@ -170,7 +195,7 @@ label {
 }
 
 .reciperesponse{
-  background-image: url("../images/white.jpeg");
+  background-image: url("../imgs/white.jpeg");
   color: black;
   margin-bottom: 20px;
   border-bottom: 1.5px solid black;
@@ -180,7 +205,7 @@ label {
 }
 
 .modal-content{
-  background-image: url("../images/top.jpeg");
+  background-image: url("../imgs/top.jpeg");
   font-family: Writing, Helvetica, Arial, sans-serif;
   font-size: 50px;
   color: black;
@@ -203,7 +228,7 @@ label {
 
 .signbutton{
   float: left;
-  background-image: url("../images/wall.jpeg");
+  background-image: url("../imgs/wall.jpeg");
   margin: 5px;
   color: black;
   border-color: black;
@@ -218,7 +243,7 @@ label {
 
 .previousbutton{
   float: right;
-  background-image: url("../images/wall.jpeg");
+  background-image: url("../imgs/wall.jpeg");
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -247,15 +272,15 @@ label {
 
 @font-face {
   font-family: Food;
-  src: url("../images/food.ttf");
+  src: url("../imgs/food.ttf");
 }
 
 @font-face {
   font-family: Writing;
-  src: url("../images/writing.otf");
+  src: url("../imgs/writing.otf");
 }
 
 @font-face {
   font-family: Menu;
-  src: url("../images/bold.otf");
+  src: url("../imgs/bold.otf");
 }

@@ -1,4 +1,4 @@
-# Project Name - TBD (Something Awesome to do with Food)
+# Project Name - MyFood
 
 ## Description:
 Expanding on Feedbag v 1.0, Project TBD will bring an added homepage and user authentication. Envisioned as a "Total Food App", Project TBD will allow users the full functionality they will need to have an efficient digital companion in their kitchen.
