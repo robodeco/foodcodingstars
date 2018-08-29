@@ -18,7 +18,7 @@ module.exports = function(app) {
   })
 
   app.get("/notes", function(req, res){
-    console.log("You are in feedbag 1.1");
+    console.log("You are in notes");
     res.sendFile(path.join(__dirname, "../public/construction.html"));
   })
 

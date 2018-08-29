@@ -1,3 +1,7 @@
+const result = require("dotenv").config();
+
+
+console.log(result.parsed)
 const express = require ('express');
 const authRoutes = require('./controllers/authroutes');
 const passportSetup = require('./config/passport-setup');
@@ -16,7 +20,7 @@ app.use(require('express-session')({
 }));
 app.use(passportSetup.initialize());
 app.use(passportSetup.session())
-require("dotenv").config();
+
 
 
 //set up view engine
@@ -36,7 +40,7 @@ app.use(bodyParser.json());
 //   res.render('home');
 // });
 app.get("/user", function(req, res) {
-  res.status(200).json({username:req.user.username})
+  res.status(200).json({username:req.user.username, id: req.user.id})
 });
 
 

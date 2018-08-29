@@ -5,12 +5,12 @@ module.exports = function(sequelize, DataTypes) {
     location: DataTypes.STRING
   });
 
-// Restaurant.associate = function(models){
-//   Restaurant.belongsTo(models.User,{
-//     foreignKey:{
-//       allowNull: false
-//     }
-//   })
-// }
+Restaurant.associate = function(models){
+  Restaurant.belongsTo(models.User,{
+    foreignKey:{
+      allowNull: false
+    }
+  })
+}
   return Restaurant;
 }

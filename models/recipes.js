@@ -6,12 +6,12 @@ module.exports = function(sequelize, DataTypes) {
     thumbnail: DataTypes.STRING
   });
 
-// Recipe.associate = function(models){
-//   Recipe.belongsTo(models.User,{
-//     foreignKey:{
-//       allowNull: false
-//     }
-//   })
-// }
+Recipe.associate = function(models){
+  Recipe.belongsTo(models.User,{
+    foreignKey:{
+      allowNull: false
+    }
+  })
+}
   return Recipe;
 }

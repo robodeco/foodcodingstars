@@ -1,3 +1,5 @@
+
+
 //title animation
 var basicTimeline = anime.timeline();
 basicTimeline.add({
@@ -83,12 +85,14 @@ var CuisinesButtonsFinished = [];
 var finalQueryURL;
 var queryBaseURL = "https://developers.zomato.com/api/v2.1/";
 var finalQueryURL2;
-var queryBaseURL2 = "https://proxy.calweb.xyz/http://www.recipepuppy.com/api/";
+var queryBaseURL2 = "http://food2fork.com/api/search?key=";
 var cuisineVal2 = "";
 var lat;
 var long;
 var userprice;
 var userpricerange;
+var f2fkey= "2ae002a5e80f4bbc77f1c9a0da4876dc";
+
 
 //function definitions
 
@@ -171,10 +175,24 @@ function checkFunction() {
 // Previous User Search/signin stuff
 //***********************************************************************************************************************************************************************************
 
-$.get("/user", username);
-function username(data){
-$("#usernamedisplay").append("Welcome " + data.username);
-}
+function getuser () {
+
+    $.get("/user", username);
+       function username(data){
+
+
+          $("#usernamedisplay").append("Welcome " + data.username);
+          $("#usernamedisplay").attr("userid", data.id);
+
+        }
+
+};
+
+
+
+
+
+
 
 
 $("#signinorout").empty();
@@ -200,14 +218,21 @@ console.log(previousfavrest);
 
 $("#restfvbtn").on("click", function() {
 event.preventDefault();
+
+var Usersid = $("#usernamedisplay").attr("userid");
+
+
 $("#restfvbtn").attr("data-target", "#fvmodal");
 $(".restfavorited").each(function(index) {
+
   newrest = {
     name: $(this).attr("name"),
     link: $(this).attr("link"),
-    location: $(this).attr("location")
+    location: $(this).attr("location"),
+    UserId: Usersid
 
   }
+  console.log(newrest);
   favrestvar.push(newrest);
 });
 if (fvalidate() == false) {
@@ -238,7 +263,7 @@ favrestvar.length = 0;
 });
 
 function submitRestaurant(restaurant) {
-  console.log("running");
+  console.log(restaurant);
   $.post("/api/restaurants", restaurant, function() {
 
   });
@@ -282,6 +307,7 @@ $("#prevresults").append(homebutton);
 //click handler for submitting favorites
 $("#fvbtn").on("click", function() {
   event.preventDefault();
+  var Usersid = $("#usernamedisplay").attr("userid");
   //trigger modal
   $("#fvbtn").attr("data-target", "#fvmodal");
 
@@ -293,7 +319,8 @@ $("#fvbtn").on("click", function() {
         title: $(this).attr("title"),
         href: $(this).attr("href"),
         thumbnail: $(this).attr("thumbnail"),
-        ingredients: $(this).attr("ingredients")
+        ingredients: $(this).attr("ingredients"),
+        UserId: Usersid
       }
       //push recipe objects into the favorites array
       favoritesvar.push(newrecipe);
@@ -467,25 +494,28 @@ function restuarantsapi() {
 
 //recipe API call
 function recipesapi() {
-  finalQueryURL2 = queryBaseURL2 + "?q=" + culturepick + "&count=5" + "&oi=1";
+  console.log(culturepick);
+  finalQueryURL2 = queryBaseURL2 + f2fkey + "&q=" + culturepick;
 
+  console.log(finalQueryURL2);
   $.ajax({
       url: finalQueryURL2,
-      method: "GET",
+      method: "GET"
     })
     .done(function(response) {
-      $("#recipes").empty();
-      var recipes = JSON.parse(response)
 
-      var recipeArr = recipes.results;
+      $("#recipes").empty();
+      var result = JSON.parse(response)
+      console.log(result)
+      var recipeArr = result.recipes;
 
       for (var i = 0; i < recipeArr.length; i++) {
         var recipecontainer = $("<div class='reciperesponse'>")
 
         var reciperes = {
           title: recipeArr[i].title,
-          link: recipeArr[i].href,
-          thumb: "<img class=recipeimg src=" + String(recipeArr[i].thumbnail) + '>',
+          link: recipeArr[i].source_url,
+          thumb: "<img class=recipeimg src=" + String(recipeArr[i].image_url) + '>',
           ingredients: recipeArr[i].ingredients,
           favorite: "<img class= 'favicon' src = '../imgs/fvicon.png' height = '30px' width = '30px' fav= 'no' rest='no' >",
 
@@ -494,7 +524,7 @@ function recipesapi() {
         recipecontainer.attr("href", reciperes.link);
         recipecontainer.attr("title", reciperes.title);
         recipecontainer.attr("ingredients", reciperes.ingredients);
-        recipecontainer.attr("thumbnail", String(recipeArr[i].thumbnail));
+        recipecontainer.attr("thumbnail", String(recipeArr[i].image_url));
 
 
 
@@ -590,7 +620,10 @@ function priceranges() {
 }
 
 
+
+
 //call independent functions
+getuser();
 getLocation();
 renderbuttons();
 

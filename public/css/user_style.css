@@ -59,7 +59,8 @@ body.loading .modal {
   padding-top: 20px;
   border-style: solid;
   border-color: rgba(155,155,155, .3);
-  border-width: medium
+  border-width: medium;
+  position: fixed;
 }
 
 .card-title {
@@ -78,7 +79,8 @@ body.loading .modal {
   background-color: rgba(40, 40, 40, .9);
   min-height: 864px;
   padding: 15px;
-  margin-top: 10px
+  margin-top: 5px;
+  
 }
 
 .recRow {
@@ -116,9 +118,32 @@ body.loading .modal {
   margin-bottom: 20px;
   border-bottom: 1.5px solid black;
   border-radius: 50px;
-  padding: 20px;
+  padding: 10px;
   font-family: Menu, Helvetica, Arial, sans-serif;
   font-size: 30px;
+  align-content: center;
+  text-align: center;
+
+}
+
+.reccontainers a {
+  color: black;
+}
+
+.recipeimg{
+  border-style: groove;
+  height: 30%;
+  width: 30%;
+  border-radius: 12px;
+
+}
+
+
+.butWrap{
+  margin-bottom: 10%;
+  width: 20%;
+  position: fixed;
+  margin-right: 10px;
 
 }
 
@@ -140,6 +165,11 @@ body.loading .modal {
   .socBox {
     margin-top: 15px;
     align-content: center
+  }
+
+  .butWrap{
+    position: relative;
+    width: 100%;
   }
 
   .shiftL {
