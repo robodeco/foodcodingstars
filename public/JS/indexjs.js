@@ -229,8 +229,9 @@ $(".restfavorited").each(function(index) {
     name: $(this).attr("name"),
     link: $(this).attr("link"),
     location: $(this).attr("location"),
+    foreignKey:{
     UserId: Usersid
-
+    }
   }
   console.log(newrest);
   favrestvar.push(newrest);
@@ -495,19 +496,23 @@ function restuarantsapi() {
 //recipe API call
 function recipesapi() {
   console.log(culturepick);
-  finalQueryURL2 = queryBaseURL2 + f2fkey + "&q=" + culturepick;
-
-  console.log(finalQueryURL2);
+  // finalQueryURL2 = queryBaseURL2 + f2fkey + "&q=" + culturepick;
+  //
+  // console.log(finalQueryURL2);
+  // $.ajax({
+  //     url: finalQueryURL2,
+  //     method: "GET"
+  //   })
   $.ajax({
-      url: finalQueryURL2,
-      method: "GET"
-    })
+    url: "/api/RecipeEXP/" + culturepick,
+    method: "GET"
+  })
     .done(function(response) {
 
       $("#recipes").empty();
-      var result = JSON.parse(response)
-      console.log(result)
-      var recipeArr = result.recipes;
+      // var result = JSON.parse(response)
+      console.log(response)
+      var recipeArr = response.recipes;
 
       for (var i = 0; i < recipeArr.length; i++) {
         var recipecontainer = $("<div class='reciperesponse'>")

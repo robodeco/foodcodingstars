@@ -7,6 +7,10 @@
 
 // Requiring our models
 var db = require("../models");
+const FOOD2FORK = 'https://food2fork.com/api/search?key='
+const APIKey = process.env.F2F_API_KEY;
+const axios = require('axios');
+const request = require('request');
 
 // Routes
 // =============================================================
@@ -19,6 +23,27 @@ module.exports = function(app) {
       res.json(dbUser);
     })
   });
+
+//F2F Proxy
+app.get("/api/RecipeEXP/:recipekeywords", function(req, res){
+  console.log("found");
+
+
+    const RecipeQuery = req.params.recipekeywords;
+    console.log(RecipeQuery)
+    const url = FOOD2FORK + APIKey + "&q=" + RecipeQuery +"&sort=r";
+    return axios.get(url)
+    .then(function(response){
+      res.json(response.data)
+      console.log(response.data)
+    })
+
+    .catch(function(error){
+      console.error(error)
+    });
+
+
+});
 
 //deleting users
   app.delete("/api/users/:id", function(req, res){

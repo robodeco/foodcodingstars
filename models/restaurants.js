@@ -7,6 +7,7 @@ module.exports = function(sequelize, DataTypes) {
 
 Restaurant.associate = function(models){
   Restaurant.belongsTo(models.User,{
+    //this is the problem. Maybe UserId has to be an object? foreignKey: {UserId: Usersid}
     foreignKey:{
       allowNull: false
     }
